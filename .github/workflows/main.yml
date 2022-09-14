@@ -1,0 +1,35 @@
+on: push
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.1
+      with:
+        server: ftp.grupoipeys.com
+        username: antoniopinedo2018@grupoipeys.com
+        password: ${{secrets.PASS}}
+        local-dir: ./
+        server-dir: ./wp-content/plugins/ib-directory/
+        exclude: |
+          **/.expo/**
+          **/.expo-shared/**
+          **/.git*
+          **/.git*/**
+          **/.github*/**
+          **/assets/**
+          **/node_modules/**
+          .gitignore
+          App.js
+          babel.config.js
+          app.json
+          package.json
+          package-lock.json
+          composer.json
+          composer.lock
+          *.md

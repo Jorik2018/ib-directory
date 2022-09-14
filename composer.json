@@ -1,0 +1,17 @@
+{
+    "name": "isobit/ib-directory",
+    "description": "Directory plugin for worpress, manage users, personal information, regions, provinces, etc.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Isobit\\IbDirectory\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Erik Antonio Alarcon Pinedo",
+            "email": "ealarconp@regionancash.gob.pe"
+        }
+    ],
+    "require": {}
+}
