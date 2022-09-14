@@ -7,6 +7,22 @@
             "Isobit\\IbDirectory\\": "src/"
         }
     },
+    "scripts": {
+        "post-update-cmd": "MyVendor\\MyClass::postUpdate",
+        "post-package-install": [
+            "MyVendor\\MyClass::postPackageInstall"
+        ],
+        "post-install-cmd": [
+            "MyVendor\\MyClass::warmCache",
+            "phpunit -c app/"
+        ],
+        "post-autoload-dump": [
+            "MyVendor\\MyClass::postAutoloadDump"
+        ],
+        "serve": [
+            "cd ..\\..\\.. && php -S localhost:8900 -t webhook webhook/dev-routings.php"
+        ]
+    },
     "authors": [
         {
             "name": "Erik Antonio Alarcon Pinedo",

@@ -5,3 +5,6 @@ https://radcampaign.com/blog/wordpress-plugin-development-ditch-require-and-use-
 git init
 composer init
 composer install
+php -S localhost:8900
+
+Check permalik Wordpress is in "Post name" option

@@ -289,6 +289,10 @@ add_action( 'rest_api_init', function () {
         'methods' => 'GET',
         'callback' => 'api_user_get',
     ));
+    register_rest_route('api/user', '/me', array(
+        'methods' => 'GET',
+        'callback' => 'api_user_profile_get',
+    ));
     register_rest_route('api/user', '/(?P<id>\d+)/profile', array(
         'methods' => 'GET',
         'callback' => 'api_user_profile_get',
@@ -314,8 +318,8 @@ function wporg_simple_role() {
 }
  
 add_action( 'init', 'wporg_simple_role' );
-add_action( 'show_user_profile', 'extra_user_profile_fields' );
-add_action( 'edit_user_profile', 'extra_user_profile_fields' );
+add_action( 'show_user_profile', 'ib_user_profile_fields' );
+add_action( 'edit_user_profile', 'ib_user_profile_fields' );
 
 function api_supervisor_func(){
     $results = $GLOBALS['wpdb']->get_results( "SELECT  um.user_id,u.display_name,meta_value as supervisor
@@ -328,7 +332,7 @@ WHERE `meta_key`='supervisor'", OBJECT );
 }
 
 
-function extra_user_profile_fields( $user ) {
+function ib_user_profile_fields( $user ) {
 $results = $GLOBALS['wpdb']->get_results( "SELECT  um.user_id,u.display_name
 FROM `wpsy_usermeta` um
 INNER JOIN wpsy_users u ON u.ID=um.user_id
@@ -355,9 +359,9 @@ $user_id=get_the_author_meta( 'supervisor', $user->ID );
     </tr>
     </table>
 <?php }
-add_action( 'personal_options_update', 'save_extra_user_profile_fields' );
-add_action( 'edit_user_profile_update', 'save_extra_user_profile_fields' );
-function save_extra_user_profile_fields( $user_id ) {
+add_action( 'personal_options_update', 'save_ib_user_profile_fields' );
+add_action( 'edit_user_profile_update', 'save_ib_user_profile_fields' );
+function save_ib_user_profile_fields( $user_id ) {
     update_user_meta( $user_id, 'supervisor', $_POST['supervisor'] );
 }
 function api_covid($request) {
@@ -719,8 +723,11 @@ function api_microred_pag($request) {
     if($wpdb->last_error )return new WP_Error(500,$wpdb->last_error, array( 'status' => 500 ) );
     $count = $wpdb->get_var('SELECT FOUND_ROWS()');
     foreach ($results as &$r){
-        $r['name']=$r['Microred'];
-        $r['code']=$r['Codigo_Cocadenado'];
+        foreach ($r as $key => &$value){
+            $r[$key]=$r[strtolower($key)];
+        }
+        $r['name']=$r['microred'];
+        $r['code']=$r['codigo_cocadenado'];
         
     }
     return $request['to']?array('data'=>$results,'size'=>$count):$results;
@@ -736,8 +743,11 @@ function api_red_pag($request) {
     $results = $wpdb->get_results("SELECT SQL_CALC_FOUND_ROWS * FROM grupoipe_vetatrem.MAESTRO_RED d ORDER BY red".($to?"LIMIT ". $from.', '. $to:""),ARRAY_A );
     if($wpdb->last_error )return new WP_Error(500,$wpdb->last_error, array( 'status' => 500 ) );
     foreach ($results as &$r){
-        $r['name']=$r['Red'];
-        $r['code']=$r['Codigo_Red'];
+        foreach ($r as $key => &$value){
+            $r[$key]=$r[strtolower($key)];
+        }
+        $r['name']=$r['red'];
+        $r['code']=$r['codigo_red'];
     }
     $count=$wpdb->get_var('SELECT FOUND_ROWS()');
     return $request['to']?array('data'=>$results,'size'=>$count):$results;
@@ -753,8 +763,11 @@ function api_eess_pag($request) {
     if($wpdb->last_error )return t_error();
     $count = $wpdb->get_var('SELECT FOUND_ROWS()');
     foreach ($results as &$r){
-        $r['name']=$r['Nombre_Establecimiento'];
-        $r['code']=$r['Codigo_Unico'];
+        foreach ($r as $key => &$value){
+            $r[$key]=$r[strtolower($key)];
+            $r['name']=$r['nombre_establecimiento'];
+            $r['code']=$r['codigo_unico'];
+        }
     }
     return $request['to']?array('data'=>$results,'size'=>$count):$results;
 }
