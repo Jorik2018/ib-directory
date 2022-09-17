@@ -290,8 +290,9 @@ function api_user_get(){
 
 function api_user_profile_get(){
     $u=(array)wp_get_current_user();
-    $u['people'] = get_userdata($u->ID);
-    $u['names']=get_user_meta( $u->ID, 'billing_first_name', true );
+    $uid=$u['ID'];
+    $u['people'] = get_userdata($uid);
+    $u['names']=get_user_meta( $uid, 'billing_first_name', true );
     $u['id'] =$u['ID'];
     return $u;
 }
