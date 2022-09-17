@@ -66,7 +66,12 @@ function api_cp_func() {
 function api_town_sample_get($request) {
     global $wpdb;
     $wpdb->last_error='';
-    $results = $wpdb->get_results("SELECT 
+    $results = $wpdb->get_results("SELECT substr(zona,1,1) tipo, 
+    manzana id, 
+    ccpp_cod as code, nombccpp as name, sufzona, sufzona, codmzna, sufmzna, 
+    encuesta, hog_ccpp hogares, hog_ccpp vivienda FROM muestra_pataz      
+        
+        UNION
         'R' tipo,
         codigo id,
         concat(ubigeo,codccpp) code,
