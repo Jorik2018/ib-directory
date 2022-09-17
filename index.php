@@ -296,7 +296,7 @@ function api_user_profile_get(){
     $u['id'] =$u['ID'];
     $v=$u['data'];
     if($v)
-    $u['mail']=$v['user_email'];
+    $u['mail']=$v->user_email;
     return $u;
 }
 
