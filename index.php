@@ -56,7 +56,10 @@ function api_cp_func() {
         concat(ubigeo,codccpp),
         codccpp,
         centro_pob
-        FROM `rural` order by 1");
+        FROM `rural`
+        union 
+        SELECT distinct ccpp_cod id,codccpp,nombccpp name FROM muestra_pataz 
+         order by 1");
     if($wpdb->last_error)return t_error();
     return $results;
 }
@@ -278,12 +281,22 @@ function api_user_get(){
     'last_name'=>get_user_meta( $u->ID, 'last_name', true ),
     'meta'=>get_user_meta( $u->ID ))*/;
 }
+
 function api_user_profile_get(){
     $u=(array)wp_get_current_user();
     $u['people'] = get_userdata($u->ID);
     $u['id'] =$u['ID'];
     return $u;
 }
+
+function api_user_profile_put($request){
+    global $wpdb;
+    $o=method_exists($request,'get_params')?$request->get_params():$request;
+    $u=(array)wp_get_current_user();
+    $u['request']=$o;
+    return $u;
+}
+
 add_action( 'rest_api_init', function () {
     register_rest_route('api', '/user', array(
         'methods' => 'GET',
@@ -292,6 +305,10 @@ add_action( 'rest_api_init', function () {
     register_rest_route('api/user', '/me', array(
         'methods' => 'GET',
         'callback' => 'api_user_profile_get',
+    ));
+    register_rest_route('api/user', '/profile', array(
+        'methods' => 'PUT',
+        'callback' => 'api_user_profile_put',
     ));
     register_rest_route('api/user', '/(?P<id>\d+)/profile', array(
         'methods' => 'GET',
