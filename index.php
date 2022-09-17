@@ -301,11 +301,11 @@ function api_user_profile_get(){
 }
 
 function api_user_profile_put($request){
-    global $wpdb;
-    $o=method_exists($request,'get_params')?$request->get_params():$request;
-    $u=(array)wp_get_current_user();
-    $u['request']=$o;
-    return $u;
+    //global $wpdb;
+    //$o=method_exists($request,'get_params')?$request->get_params():$request;
+    //$u=(array)wp_get_current_user();
+    //$u['request']=$o;
+    return 1;// $u;
 }
 
 add_action( 'rest_api_init', function () {
