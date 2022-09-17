@@ -294,7 +294,7 @@ function api_user_profile_get(){
     $u['people'] = get_userdata($uid);
     $u['names']=get_user_meta( $uid, 'billing_first_name', true );
     $u['id'] =$u['ID'];
-    $u['mail']=$u['data']['user_email'];
+    $u['mail']=$u['data'];
     return $u;
 }
 
