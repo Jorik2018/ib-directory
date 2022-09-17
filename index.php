@@ -72,8 +72,9 @@ function api_town_sample_get($request) {
     encuesta, hog_ccpp hogares, hog_ccpp vivienda FROM muestra_pataz      
         
         UNION
-        'R' tipo,
-        codigo id,
+        SELECT
+        'R',
+        codigo,
         concat(ubigeo,codccpp) code,
         centro_pob name,
         codzona,
