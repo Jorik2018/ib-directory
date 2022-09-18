@@ -306,6 +306,11 @@ function api_user_profile_put($request){
     $u=(array)wp_get_current_user();
     $uid=$u['ID'];
     update_user_meta( $uid, 'billing_first_name', $o['names'] );
+    $args = array(
+        'ID'         => $uid,
+        'user_email' => esc_attr( $o['mail'] )
+    );
+    wp_update_user( $args );
     return true;
 }
 
