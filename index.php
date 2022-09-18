@@ -302,10 +302,11 @@ function api_user_profile_get(){
 
 function api_user_profile_put($request){
     //global $wpdb;
-    //$o=method_exists($request,'get_params')?$request->get_params():$request;
-    //$u=(array)wp_get_current_user();
-    //$u['request']=$o;
-    return 1;// $u;
+    $o=method_exists($request,'get_params')?$request->get_params():$request;
+    $u=(array)wp_get_current_user();
+    $uid=$u['ID'];
+    update_user_meta( $uid, 'billing_first_name', $u['names'] );
+    return true;
 }
 
 add_action( 'rest_api_init', function () {
