@@ -305,7 +305,7 @@ function api_user_profile_put($request){
     $o=method_exists($request,'get_params')?$request->get_params():$request;
     $u=(array)wp_get_current_user();
     $uid=$u['ID'];
-    update_user_meta( $uid, 'billing_first_name', $u['names'] );
+    update_user_meta( $uid, 'billing_first_name', $o['names'] );
     return true;
 }
 
