@@ -321,6 +321,10 @@ add_action( 'rest_api_init', function () {
         'methods' => 'PUT',
         'callback' => 'api_user_profile_put',
     ));
+    register_rest_route('api/user', '/profile', array(
+        'methods' => 'POST',
+        'callback' => 'api_user_profile_put',
+    ));
     register_rest_route('api/user', '/(?P<id>\d+)/profile', array(
         'methods' => 'GET',
         'callback' => 'api_user_profile_get',
